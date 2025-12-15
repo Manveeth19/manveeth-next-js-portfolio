@@ -18,6 +18,16 @@
         "name": "next"
       }
     ],
+
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+
+
+
+
     "paths": {
       "@/*": ["./*"]
     }
