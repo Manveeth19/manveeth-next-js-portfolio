@@ -92,7 +92,7 @@ const AboutSection: React.FC = () => {
           <FadeIn delay={600}>
             <div className="text-center pt-12">
               <SparkleButton
-                href="/Manveeth_Resume.pdf" 
+                href="/Manveeth_Reddy.pdf" 
                 text="Download My Resume"
               />
             </div>
