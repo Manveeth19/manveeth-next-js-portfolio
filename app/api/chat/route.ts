@@ -8,19 +8,74 @@ const groq = new Groq({
 
 // Fallback responses when API quota is exceeded
 const FALLBACK_RESPONSES: { [key: string]: string } = {
-  "projects": `Manveeth has developed several impressive projects including a personal portfolio with advanced animations and AI integration using Next.js, TypeScript, and Tailwind CSS. Check out his GitHub for more details: ${bioData.contact.github}`,
-  "skills": `Core skills include: ${bioData.skills.frontend.join(", ")} (Frontend), ${bioData.skills.backend.join(", ")} (Backend), and ${bioData.skills.tools.join(", ")} (Tools). Contact for detailed expertise.`,
-  "contact": `You can reach Manveeth at ${bioData.contact.email} or connect on LinkedIn: ${bioData.contact.linkedin}. Phone: ${bioData.contact.phone}`,
-  "location": `Manveeth is based in ${bioData.location}.`,
-  "default": `Hi! I'm Manveeth's AI Assistant. I can help you with information about projects, skills, and contact details. Please try again in a moment or email ${bioData.contact.email}.`
+  "projects": `Manveeth has built impressive full-stack projects:
+
+1. **PDF Play** (https://www.pdfplay.in) - A web platform for PDF conversion, merging, and optimization built with React.js, Node.js, and Firebase.
+
+2. **FitHub** (https://fithub-demo.vercel.app) - A real-time fitness app using computer vision (OpenCV, MediaPipe) for exercise tracking and posture correction.
+
+3. **Book Recommendation System** - An intelligent system using Machine Learning and React-Flask architecture.
+
+4. **Modern Portfolio** (https://manveeth-next-js-portfolio.vercel.app/) - Built with Next.js, TypeScript, Tailwind CSS, and Three.js.
+
+Visit GitHub for more: ${bioData.contact.github}`,
+
+  "skills": `**Technical Expertise:**
+
+**Languages:** ${bioData.skills.languages.join(", ")}
+**Frontend:** ${bioData.skills.frontend.join(", ")}
+**Backend & Databases:** ${bioData.skills.backend_databases.join(", ")}
+**AI & Data:** ${bioData.skills.ai_data.join(", ")}
+**Tools & Deployment:** ${bioData.skills.tools_deployment.join(", ")}
+
+B.Tech graduate (2025) with 7.5 CGPA and 100+ LeetCode problems solved.`,
+
+  "contact": `**Get in Touch with Manveeth:**
+
+📧 Email: ${bioData.contact.email}
+📱 Phone: ${bioData.contact.phone}
+🔗 LinkedIn: ${bioData.contact.linkedin}
+💼 Portfolio: ${bioData.contact.portfolio}
+🐙 GitHub: ${bioData.contact.github}`,
+
+  "about": `**About Manveeth Reddy**
+
+I'm a Full-Stack Web Developer & Software Engineer based in ${bioData.location}. I'm a recent graduate (2025) specializing in the MERN stack with proven expertise in building scalable, user-centric applications.
+
+**Key Highlights:**
+- Specialized in high-performance platforms like PDF Play and FitHub
+- B.Tech Information Technology with 7.5 CGPA
+- 100+ LeetCode problems solved
+- Passionate about modern web technologies and solving real-world problems
+
+**Portfolio:** ${bioData.contact.portfolio}
+**GitHub:** ${bioData.contact.github}`,
+
+  "education": `**Education:**
+${bioData.education.degree}
+Institution: ${bioData.education.institution}
+Graduation: ${bioData.education.graduation}
+CGPA: ${bioData.education.cgpa}
+
+**Achievements:**
+${bioData.achievements.map((achievement, i) => `${i + 1}. ${achievement}`).join("\n")}`,
+
+  "location": `Manveeth is based in ${bioData.location}, India.`,
+
+  "default": `Hi! I'm Manveeth's AI Assistant. I can help you with information about projects, skills, education, contact details, and more. Feel free to ask about anything! 
+
+📧 Email: ${bioData.contact.email}
+🔗 LinkedIn: ${bioData.contact.linkedin}`
 };
 
 function getFallbackResponse(userMessage: string): string {
   const message = userMessage.toLowerCase();
   
   if (message.includes("project")) return FALLBACK_RESPONSES.projects;
-  if (message.includes("skill") || message.includes("technology") || message.includes("tech")) return FALLBACK_RESPONSES.skills;
-  if (message.includes("contact") || message.includes("email") || message.includes("reach") || message.includes("phone")) return FALLBACK_RESPONSES.contact;
+  if (message.includes("skill") || message.includes("technology") || message.includes("tech") || message.includes("language")) return FALLBACK_RESPONSES.skills;
+  if (message.includes("contact") || message.includes("email") || message.includes("reach") || message.includes("phone") || message.includes("linkedin") || message.includes("github")) return FALLBACK_RESPONSES.contact;
+  if (message.includes("about") || message.includes("who") || message.includes("yourself")) return FALLBACK_RESPONSES.about;
+  if (message.includes("education") || message.includes("degree") || message.includes("university") || message.includes("college")) return FALLBACK_RESPONSES.education;
   if (message.includes("location") || message.includes("where")) return FALLBACK_RESPONSES.location;
   
   return FALLBACK_RESPONSES.default;
