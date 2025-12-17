@@ -10,7 +10,8 @@ import useScrollSpy from '@/hooks/useScrollSpy';
 import { useSound } from '@/hooks/useSound'; // <--- NEW: IMPORT THE SOUND HOOK
 
 // Define the sound path
-const CLICK_SOUND_PATH = '/sounds/Yoi.mp3';
+const CLICK_SOUND_PATH = '/sounds/click.mp3';
+
 
 
 const navItems = [
