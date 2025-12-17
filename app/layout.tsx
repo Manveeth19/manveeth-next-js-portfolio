@@ -1,10 +1,10 @@
-// app/layout.tsx
 import './globals.css';
 import { Metadata } from 'next';
 import React from 'react';
 import Navbar from '@/components/Navbar'; 
 import Footer from '@/components/shared/Footer';
-import { ThemeProvider } from '@/components/shared/ThemeProvider'; // <-- Ensure this import is correct
+import { ThemeProvider } from '@/components/shared/ThemeProvider';
+import Chatbot from '@/components/chatbot/Chatbot';
 
 export const metadata: Metadata = {
   title: 'Manveeth Reddy | Full-Stack Developer Portfolio',
@@ -17,23 +17,15 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
-      {/* FIX: The entire application body structure must be wrapped in ThemeProvider 
-        so that Navbar and all child components can access the context.
-      */}
-      <ThemeProvider> 
-        {/*
-          The body tag now correctly applies the dark mode classes, which rely on
-          the theme class being set on the <html> tag by the ThemeProvider component.
-        */}
-        <body className="bg-gray-50 min-h-screen pt-14 dark:bg-gray-900 dark:text-gray-50 transition-colors duration-500"> 
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-gray-50 min-h-screen pt-14 dark:bg-gray-900 dark:text-gray-50 transition-colors duration-500"> 
+        <ThemeProvider> 
           <Navbar /> 
-          <main>
-            {children}
-          </main>
+          <main>{children}</main>
           <Footer />
-        </body>
-      </ThemeProvider>
+          <Chatbot />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

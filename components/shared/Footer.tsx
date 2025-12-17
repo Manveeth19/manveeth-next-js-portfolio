@@ -1,31 +1,39 @@
 // components/shared/Footer.tsx
 "use client"; 
 
-import React from 'react'; // Only need React here, removed useState, useRef, useCallback
-// REMOVED: import Particles from '@/components/Particles'; 
+import React from 'react'; 
+// Import the Hyperspeed component and presets from where shadcn placed them
+// Assuming they are directly under 'components/'
+import Hyperspeed from '@/components/Hyperspeed'; 
+import { hyperspeedPresets } from '@/components/HyperSpeedPresets'; 
 
 const Footer: React.FC = () => {
-    // REMOVED: mousePos state, footerRef, and particleColors array
     
-    // REMOVED: handleMouseMove function
+    // We use the 'one' preset for the Hyperspeed animation.
+    const hyperspeedConfig = hyperspeedPresets.one;
     
     return (
-        // Removed ref={footerRef} and onMouseMove={handleMouseMove} from the footer tag
+        // The relative class and min-height are essential for the Hyperspeed background
         <footer 
-            className="relative py-12 bg-gray-950 text-gray-300 border-t border-gray-800 overflow-hidden"
+            className="relative py-12 bg-gray-950 text-gray-300 border-t border-gray-800 overflow-hidden min-h-[200px]"
         >
             
-            {/* 1. PARTICLES BACKGROUND - REMOVED! */}
-            {/* The content below is now the only element inside the footer */}
+            {/* 1. HYPERSPEED BACKGROUND (Client Component) */}
+            {/* Positioned absolutely to fill the footer and set to z-0 (behind content) */}
+            <div className="absolute inset-0 z-0">
+                <Hyperspeed 
+                    effectOptions={hyperspeedConfig}
+                />
+            </div>
 
-            {/* 2. FOOTER CONTENT (Now the primary content) */}
+            {/* 2. FOOTER CONTENT (Needs z-index to sit above the animation) */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                 <p className="text-sm">
                     Designed and Developed by Manveeth Reddy
                 </p>
                 <p className="text-xs mt-2 text-gray-500">
-                    Built with Next.js, TypeScript, and Tailwind CSS.
-                </p> {/* Removed "WebGL effects powered by OGL" line since it's now gone */}
+                    Built with Next.js, TypeScript, and Tailwind CSS. Animation powered by three.js/Hyperspeed.
+                </p>
                 <div className="mt-4 flex justify-center space-x-6">
                     <a 
                         href="https://github.com/manveeth19" 
