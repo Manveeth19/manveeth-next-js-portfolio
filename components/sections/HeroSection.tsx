@@ -69,7 +69,7 @@ const HeroSection: React.FC = () => {
                         <Image 
                             src="/Manveeth2.jpg"
                             alt="Manveeth Reddy Profile" 
-                            width={320} 
+                            width={340} 
                             height={320} 
                             style={{ objectFit: 'cover' }}
                             className="w-full h-full"
