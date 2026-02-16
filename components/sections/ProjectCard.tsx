@@ -8,54 +8,56 @@ export interface Project {
   title: string;
   description: string;
   tags: string[];
-  githubUrl: string;
+  githubUrl?: string; // Optional GitHub URL
   liveUrl?: string; // Optional live URL
 }
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   return (
     // 1. CARD STYLING: Stronger shadow, more rounded corners, and a lift-up hover effect
-    <div className="bg-white rounded-xl shadow-2xl hover:shadow-blue-300/50 transition-all duration-300 transform hover:-translate-y-2 overflow-hidden flex flex-col h-full border border-gray-100">
+    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl hover:shadow-blue-300/50 dark:hover:shadow-blue-900/50 transition-all duration-300 transform hover:-translate-y-2 overflow-hidden flex flex-col h-full border border-gray-100 dark:border-gray-700">
 
       {/* Card Header/Title and Description */}
       <div className="p-7 flex flex-col flex-grow">
-        <h3 className="text-2xl font-extrabold text-gray-900 mb-3">{project.title}</h3>
-        <p className="text-gray-600 mb-4 text-base flex-grow">{project.description}</p>
+        <h3 className="text-2xl font-extrabold text-gray-900 dark:text-gray-100 mb-3">{project.title}</h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-4 text-base flex-grow">{project.description}</p>
       </div>
 
       {/* 2. TAGS/TECH STACK: Clean border and slight increase in size */}
-      <div className="px-7 py-4 border-t border-gray-100 flex flex-wrap gap-2">
+      <div className="px-7 py-4 border-t border-gray-100 dark:border-gray-700 flex flex-wrap gap-2">
         {project.tags.map((tag) => (
-          <span key={tag} className="bg-blue-50 text-blue-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-blue-200">
+          <span key={tag} className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-semibold px-3.5 py-1 rounded-full border border-blue-200 dark:border-blue-800">
             {tag}
           </span>
         ))}
       </div>
 
       {/* 3. LINKS/ACTIONS: Bolder links and centered icons */}
-      <div className="p-7 pt-4 border-t border-gray-100 mt-auto flex justify-start gap-6">
-        {/* GitHub Link */}
-        <Link 
-          href={project.githubUrl} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          // Bolder text and hover color contrast
-          className="flex items-center text-gray-800 hover:text-gray-900 font-bold transition duration-150 group"
-        >
-          <CodeBracketIcon className="w-5 h-5 mr-2 text-gray-600 group-hover:text-gray-900 transition-colors" />
-          Code
-        </Link>
-        
-        {/* Live Demo Link (Conditional) */}
-        {project.liveUrl && (
-          <Link 
-            href={project.liveUrl} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            // Primary blue color, bold text
-            className="flex items-center text-blue-600 hover:text-blue-700 font-bold transition duration-150 group"
+      <div className="p-7 pt-4 border-t border-gray-100 dark:border-gray-700 mt-auto flex justify-start gap-6">
+        {/* GitHub Link (Conditional) */}
+        {project.githubUrl && (
+          <Link
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            // Bolder text and hover color contrast
+            className="flex items-center text-gray-800 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 font-bold transition duration-150 group"
           >
-            <ArrowTopRightOnSquareIcon className="w-5 h-5 mr-2 text-blue-600 group-hover:text-blue-700 transition-colors" />
+            <CodeBracketIcon className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors" />
+            Code
+          </Link>
+        )}
+
+        {/* Live Demo Link (Conditional) */}
+        {project.liveUrl && project.liveUrl !== '#' && (
+          <Link
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            // Primary blue color, bold text
+            className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-bold transition duration-150 group"
+          >
+            <ArrowTopRightOnSquareIcon className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors" />
             Live Demo
           </Link>
         )}

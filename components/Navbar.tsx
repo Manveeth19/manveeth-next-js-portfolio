@@ -17,6 +17,7 @@ const CLICK_SOUND_PATH = '/sounds/click.mp3';
 const navItems = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
+  { name: 'Experience', href: '#experience' },
   { name: 'Skills', href: '#skills' },
   { name: 'Projects', href: '#projects' },
   { name: 'Contact', href: '#contact' },
@@ -82,36 +83,36 @@ const Navbar: React.FC = () => {
               const active = isActive(item.href);
               return (
                 <Link
-  key={item.name}
-  href={item.href}
-  onClick={(e) => {
-    e.preventDefault();
-    playClickSound();
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    playClickSound();
 
-    const id = item.href.substring(1);
-    const el = document.getElementById(id);
+                    const id = item.href.substring(1);
+                    const el = document.getElementById(id);
 
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  }}
-  className={`
+                    if (el) {
+                      el.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className={`
     inline-flex items-center justify-center whitespace-nowrap 
     rounded-md px-3 py-1.5 text-sm font-medium transition-all
     ${active
-      ? 'bg-white text-blue-600 shadow-sm shadow-black/5 dark:bg-gray-700 dark:text-blue-400'
-      : 'hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
-    }
+                      ? 'bg-white text-blue-600 shadow-sm shadow-black/5 dark:bg-gray-700 dark:text-blue-400'
+                      : 'hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
+                    }
   `}
->
-  {item.name}
-</Link>
+                >
+                  {item.name}
+                </Link>
 
               );
             })}
           </div>
 
-         
+
 
 
           {/* MOBILE MENU ICON */}
@@ -137,7 +138,7 @@ const Navbar: React.FC = () => {
         onClose={closeMenuAndNavigate}
         navItems={navItems}
         activeId={activeId} // <-- PASS ACTIVE ID
-        
+
       />
     </nav>
   );

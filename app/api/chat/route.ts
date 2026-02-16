@@ -54,7 +54,7 @@ I'm a Full-Stack Web Developer & Software Engineer based in ${bioData.location}.
   "education": `**Education:**
 ${bioData.education.degree}
 Institution: ${bioData.education.institution}
-Graduation: ${bioData.education.graduation}
+Graduation: ${bioData.education.duration}
 CGPA: ${bioData.education.cgpa}
 
 **Achievements:**
@@ -70,30 +70,30 @@ ${bioData.achievements.map((achievement, i) => `${i + 1}. ${achievement}`).join(
 
 function getFallbackResponse(userMessage: string): string {
   const message = userMessage.toLowerCase();
-  
+
   if (message.includes("project")) return FALLBACK_RESPONSES.projects;
   if (message.includes("skill") || message.includes("technology") || message.includes("tech") || message.includes("language")) return FALLBACK_RESPONSES.skills;
   if (message.includes("contact") || message.includes("email") || message.includes("reach") || message.includes("phone") || message.includes("linkedin") || message.includes("github")) return FALLBACK_RESPONSES.contact;
   if (message.includes("about") || message.includes("who") || message.includes("yourself")) return FALLBACK_RESPONSES.about;
   if (message.includes("education") || message.includes("degree") || message.includes("university") || message.includes("college")) return FALLBACK_RESPONSES.education;
   if (message.includes("location") || message.includes("where")) return FALLBACK_RESPONSES.location;
-  
+
   return FALLBACK_RESPONSES.default;
 }
 
 export async function POST(req: Request) {
   let userMessage = "";
-  
+
   try {
     const body = await req.json();
     const { messages } = body;
     userMessage = messages?.[messages.length - 1]?.content || "";
-    
+
     // Validate API key
     if (!process.env.GROQ_API_KEY) {
-      return NextResponse.json({ 
-        role: 'assistant', 
-        content: `API key not configured. Please contact ${bioData.contact.email}.` 
+      return NextResponse.json({
+        role: 'assistant',
+        content: `API key not configured. Please contact ${bioData.contact.email}.`
       }, { status: 200 });
     }
 
@@ -102,9 +102,19 @@ export async function POST(req: Request) {
 Website Dataset: ${JSON.stringify(bioData)}.
 
 Instructions:
-1. Use the dataset to answer questions about skills, projects, and contact info.
-2. Keep responses professional, friendly, and under 3 sentences.
-3. If a user asks for something not in the data, ask them to email ${bioData.contact.email}.`;
+1. Use the dataset to answer questions about skills, projects, experience, education, and contact info.
+2. Keep responses professional, friendly, and well-organized.
+3. For longer responses (3+ items or details), use bullet points (•) for better readability.
+4. Format responses with clear structure:
+   - Use **bold** for ALL section headers and main titles
+   - Use bullet points (•) for lists
+   - Make the title/heading of each bullet point item **bold** (e.g., **PDF Play:** description)
+   - Keep each point concise
+   - Add line breaks between sections for clarity
+5. If a user asks for something not in the data, politely ask them to email ${bioData.contact.email}.
+6. When listing multiple items (projects, skills, achievements), always use bullet points with **bold titles**.
+7. Maintain a conversational yet professional tone.
+8. Example format for projects: • **Project Name:** Brief description`;
 
     const response = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
@@ -123,10 +133,10 @@ Instructions:
     });
 
     const responseText = response.choices[0]?.message?.content || "";
-    
-    return NextResponse.json({ 
+
+    return NextResponse.json({
       success: true,
-      role: 'assistant', 
+      role: 'assistant',
       content: responseText
     });
   } catch (error: any) {
@@ -138,10 +148,10 @@ Instructions:
     if (error.status === 429) {
       console.warn("⚠️ Quota exceeded - using fallback response");
       const fallbackResponse = getFallbackResponse(userMessage);
-      
-      return NextResponse.json({ 
+
+      return NextResponse.json({
         success: false,
-        role: 'assistant', 
+        role: 'assistant',
         content: fallbackResponse,
         isGraceful: true,
         message: "API quota exceeded - using cached response"
@@ -151,15 +161,15 @@ Instructions:
     // For other errors (404, 500, etc), return user-friendly message with fallback
     const fallbackResponse = getFallbackResponse(userMessage);
     console.warn("Using fallback response for error status:", error.status);
-    
+
     return NextResponse.json(
-      { 
+      {
         success: false,
-        role: 'assistant', 
+        role: 'assistant',
         content: fallbackResponse,
         isGraceful: true,
         message: "Temporary API issue - using cached response"
-      }, 
+      },
       { status: 200 }
     );
   }
